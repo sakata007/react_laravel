@@ -4,9 +4,11 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\Task;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      *
@@ -14,8 +16,16 @@ class ExampleTest extends TestCase
      */
     public function test_example()
     {
-        $response = $this->get('/');
+        $tasks = Task::factory()->count(10)->create();
+        // dd(($tasks)->toArray());
 
-        $response->assertStatus(200);
+        // $response = $this->get('/');
+        $response = $this->getJson('api/tasks');
+        dd($response->json());
+
+        // $response->assertStatus(200);
+        $response
+        ->assertOK()
+        ->assertJsonCount($tasks->count());
     }
 }
