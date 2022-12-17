@@ -21,11 +21,34 @@ class ExampleTest extends TestCase
 
         // $response = $this->get('/');
         $response = $this->getJson('api/tasks');
-        dd($response->json());
 
         // $response->assertStatus(200);
         $response
         ->assertOK()
         ->assertJsonCount($tasks->count());
+    }
+
+        /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function test_create()
+    {
+        $data = [
+            'title' => 'sample_test',
+            'is_done' => false
+        ];
+
+
+        // $response = $this->get('/');
+        $response = $this->postJson('/api/tasks', $data);
+        // dd($data);
+        dd($response);
+
+        // $response->assertStatus(200);
+        $response
+        ->assertStatus(201);
+        // ->assertJsonCount($tasks->count());
     }
 }
